@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 import logging
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -42,9 +44,36 @@ def index(request, id):
     service = Service.objects.get(id=id)
     return render(request, 'services/single_service.html', {'service': service})
 
-
+@login_required
 def create(request):
-    return render(request, 'services/create.html', {})
+    """Protected view - only logged in companies can create services"""
+    logger.debug("Entering create service view")
+    
+    # Check if user is a company
+    if not hasattr(request.user, 'company'):
+        messages.error(request, "Only companies can create services")
+        return redirect('service_list')
+        
+    if request.method == 'POST':
+        form = CreateNewService(request.POST)
+        company = request.user.company
+        if form.is_valid():
+            if company.field != 'All in One' and company.field != form.cleaned_data['field']:
+                form.add_error('field', 'You can only create services in your field of work.')
+                return render(request, 'services/create.html', {'form': form})
+            
+            service = Service(
+                company=company,
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                price_hour=form.cleaned_data['price_hour'],
+                field=form.cleaned_data['field'],
+            )
+            service.save()
+            return redirect('services_list')
+    else:
+        form = CreateNewService()
+    return render(request, 'services/create.html', {'form': form})
 
 
 def service_field(request, field):
