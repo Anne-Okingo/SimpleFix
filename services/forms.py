@@ -84,4 +84,55 @@ class CreateNewService(forms.Form):
 
 
 class RequestServiceForm(forms.Form):
-    pass
+    address = forms.CharField(
+        max_length=200,
+        min_length=5,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter service address'
+        }),
+        error_messages={
+            'required': 'Service address is required',
+            'min_length': 'Address must be at least 5 characters long',
+            'max_length': 'Address cannot exceed 200 characters'
+        }
+    )
+    hours_needed = forms.DecimalField(
+        decimal_places=1,
+        max_digits=4,
+        required=True,
+        min_value=0.5,
+        max_value=99.9,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter hours needed',
+            'step': '0.5'  # Allow half-hour increments
+        }),
+        error_messages={
+            'required': 'Service hours are required',
+            'min_value': 'Minimum service time is 0.5 hours',
+            'max_value': 'Maximum service time is 99.9 hours',
+            'invalid': 'Please enter a valid number of hours'
+        }
+    )
+    def __init__(self, *args, **kwargs):
+        super(RequestServiceForm, self).__init__(*args, **kwargs)
+        self.fields['address'].label = 'Service Address'
+        self.fields['hours_needed'].label = 'Hours Needed'
+
+    def clean_address(self):
+        address = self.cleaned_data.get('address')
+        if address:
+            # Remove extra whitespace but preserve line breaks for multi-line addresses
+            address = '\n'.join(' '.join(line.split()) for line in address.split('\n') if line.strip())
+        return address
+
+    def clean_hours_needed(self):
+        hours = self.cleaned_data.get('hours_needed')
+        if hours:
+            # Round to nearest 0.5
+            return round(hours * 2) / 2
+        return hours
+
+
