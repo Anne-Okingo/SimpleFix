@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 import logging
 from django.contrib import messages
@@ -9,8 +8,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 from users.models import Company, Customer, User
-
-from .models import Service
+from .models import Service, ServiceRequest
 from .forms import CreateNewService, RequestServiceForm
 
 
@@ -84,5 +82,42 @@ def service_field(request, field):
     return render(request, 'services/field.html', {'services': services, 'field': field})
 
 
+@login_required
 def request_service(request, id):
-    return render(request, 'services/request_service.html', {})
+    """Protected view - only logged in customers can request services"""
+    if not (request.user.is_authenticated and hasattr(request.user, 'customer')):
+        messages.error(request, "Only logged in customers can request services")
+        return redirect('service_list')
+    
+    try:
+        service = get_object_or_404(Service, id=id)
+        
+        if request.method == 'POST':
+            form = RequestServiceForm(request.POST)
+            if form.is_valid():
+                # Create service request
+                ServiceRequest.objects.create(
+                    service=service,
+                    customer=request.user.customer,
+                    address=form.cleaned_data['address'],
+                    hours_needed=form.cleaned_data['hours_needed']
+                )
+                
+                # Increment request count
+                service.request_count += 1
+                service.save()
+                
+                messages.success(request, f"Service request for {service.name} has been submitted")
+                return redirect('services_list')
+        else:
+            form = RequestServiceForm()
+            
+        return render(request, 'services/request_service.html', {
+            'form': form,
+            'service': service
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in request_service: {str(e)}")
+        messages.error(request, "An error occurred while processing your request")
+        return redirect('services_list')
