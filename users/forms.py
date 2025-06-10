@@ -10,3 +10,14 @@ from .models import User, Company, Customer
 class DateInput(forms.DateInput):
     """Custom date input widget that uses HTML5 date picker"""
     input_type = 'date'
+
+# Validates that the email isn't already registered.
+
+def validate_email(value):
+    """
+    Validates that the email isn't already registered.
+    Raises ValidationError if email exists in User model.
+    """
+    if User.objects.filter(email=value).exists():
+        raise ValidationError(
+            value + " is already taken.")
