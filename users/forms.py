@@ -156,3 +156,17 @@ class CompanySignUpForm(UserCreationForm):
             field=self.cleaned_data.get('field')
         )
         return user
+
+
+
+class UserLoginForm(forms.Form):
+   
+    email = forms.EmailField(widget=forms.TextInput(
+        attrs={'placeholder': 'Enter Email'}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'}))
+
+    def __init__(self, *args, **kwargs):
+        """Disables autocomplete for email field"""
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['autocomplete'] = 'off'
