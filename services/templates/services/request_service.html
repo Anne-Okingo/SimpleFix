@@ -1,11 +1,35 @@
 {% extends 'main/base.html' %}
-{% block title %}
-    Request Service
-{% endblock %}
+
+{% block title %}Request Service{% endblock %}
 
 {% block content %}
-    <p class="title">Service Request Details</p>
-    <form method="POST">
-        <button type="submit">Request</button>
-    </form>
+<h2>Request Service: {{ service.name }}</h2>
+<p>Company: <a href="{% url 'company_profile' service.company.user.username %}">
+    {{ service.company.user.username }}</a></p>
+<p>Field: {{ service.field }}</p>
+<p>Price per hour: {{ service.price_per_hour }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% if form.errors %}
+        <div class="form_errors">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {{ form.as_p }}
+    <button type="submit" class="like_button">Request Service</button>
+</form>
+
+<a href="{% url 'service_detail' service.id %}" class="back_button">Back to Service</a>
 {% endblock %}
