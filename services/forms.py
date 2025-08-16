@@ -46,3 +46,14 @@ class CreateNewService(forms.ModelForm):
                 self.fields['field'].choices = [(company.field, company.field)]
         else:
             self.fields['field'].choices = all_fields
+
+
+class RequestServiceForm(forms.Form):
+    address = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(attrs={'placeholder': 'Enter Address'})
+    )
+    hours = forms.IntegerField(
+        min_value=1,
+        widget=forms.NumberInput(attrs={'placeholder': 'Number of Hours'})
+    )
