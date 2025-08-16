@@ -3,10 +3,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import Company, Customer
 
 class Service(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='services')
     name = models.CharField(max_length=40)
     description = models.TextField()
-    price_hour = models.DecimalField(decimal_places=2, max_digits=100)
+    price_per_hour = models.DecimalField(decimal_places=2, max_digits=100)
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
     choices = (
         ('Air Conditioner', 'Air Conditioner'),
@@ -31,7 +31,7 @@ class Service(models.Model):
 # New model to track service requests
 class ServiceRequest(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='service_requests')
     address = models.CharField(max_length=255)
     hours = models.PositiveIntegerField()
     requested_at = models.DateTimeField(auto_now_add=True)

@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
             name='Customer',
             fields=[
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='users.user')),
-                ('birth', models.DateField()),
+                ('date_of_birth', models.DateField()),
             ],
         ),
     ]
