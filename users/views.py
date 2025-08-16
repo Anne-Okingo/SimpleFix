@@ -78,7 +78,7 @@ def LoginUserView(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login_user')
+    return redirect('login')
 
 
 # ------------------------------------------------------------
