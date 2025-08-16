@@ -1,15 +1,29 @@
 {% extends 'main/base.html' %}
+
 {% block title %}
     {{ service.name }}
 {% endblock %}
+
 {% block content %}
-    <div class='service_info_header'>
-        <h1>{{service.name}} -- {{service.price_hour}}€/hour</h1>
-        <h5>by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></h5>
-    </div>
-    <h3>{{service.field}}</h3>
-    <p style="text-align: left;">{{service.description}}</p>
-    {% if request.user.is_customer %}
-        <a href="/services/{{service.id}}/request_service/" class="like_button">Request Service</a>
-    {% endif %}
+<div class='service_info_header'>
+    <h1>{{ service.name }} — {{ service.price_per_hour }}€/hour</h1>
+    <h5>by 
+        <a href="{% url 'company_profile' service.company.user.username %}">
+            {{ service.company.user.username }}
+        </a>
+    </h5>
+</div>
+
+<h3>{{ service.field }}</h3>
+<p style="text-align: left;">{{ service.description }}</p>
+<p>Created at: {{ service.created_at.date }}</p>
+
+{% if user.is_authenticated and user.is_customer and form %}
+    <h3>Request this service</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="like_button">Request Service</button>
+    </form>
+{% endif %}
 {% endblock %}
