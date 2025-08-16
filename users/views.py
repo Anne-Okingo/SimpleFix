@@ -69,7 +69,7 @@ def LoginUserView(request):
                     if user.is_company:
                         return redirect('company_profile', name=user.username)
             messages.error(request, 'Invalid credentials. Please try again.')
-    return render(request, 'users/templates/users/login.html', {'form': form})
+    return render(request, 'users/login.html', {'form': form})
 
 
 # ------------------------------------------------------------
@@ -78,7 +78,7 @@ def LoginUserView(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('login_user')
 
 
 # ------------------------------------------------------------
