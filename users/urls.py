@@ -6,7 +6,7 @@ urlpatterns = [
     path('company/', v.CompanySignUpView.as_view(), name='register_company'),
     path('customer/', v.CustomerSignUpView.as_view(), name='register_customer'),
 
-    path('login/', v.LoginUserView, name='login_user'),
+    path('login/', v.LoginUserView, name='login'),
     path('logout/', v.logout_view, name='logout'),
 
     path('customer/<slug:name>/', v.customer_profile, name='customer_profile'),
