@@ -8,11 +8,8 @@ urlpatterns = [
     # Company creates a new service
     path('create/', v.create_service, name='create_service'),
 
-    # Single service detail page
+    # Single service detail page (also handles requests)
     path('<int:id>/', v.service_detail, name='service_detail'),
-
-    # Request a service (optional, also handled in service_detail)
-    path('<int:id>/request/', v.request_service, name='request_service'),
 
     # Services filtered by category/field
     path('field/<slug:field>/', v.service_field, name='service_field'),
