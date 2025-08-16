@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from users.models import User, Company, Customer
+
+from users.models import User, Company, Customer, Service
 from services.models import Service
 from django.shortcuts import render
 from services.models import ServiceRequest
@@ -25,9 +26,12 @@ def customer_profile(request, username):
     })
 
 def company_profile(request, name):
-    # fetches the company user and all of the services available by it
-    user = User.objects.get(username=name)
-    services = Service.objects.filter(
-        company=Company.objects.get(user=user)).order_by("-created_at")
+    # Get the company for this username
+    company = get_object_or_404(Company, user__username=name)
+    # Get all services for this company, newest first
+    services = company.services.all().order_by('-created_at')
 
-    return render(request, 'users/profile_company.html', {'user': user, 'services': services})
+    return render(request, 'users/profile_company.html', {
+        'company': company,
+        'services': services
+    })
