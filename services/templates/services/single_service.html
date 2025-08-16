@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block content %}
+
+<!-- Display messages -->
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="message {{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 <div class='service_info_header'>
     <h1>{{ service.name }} — {{ service.price_per_hour }}€/hour</h1>
     <h5>by 
@@ -26,4 +36,5 @@
         <button type="submit" class="like_button">Request Service</button>
     </form>
 {% endif %}
+
 {% endblock %}
