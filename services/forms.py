@@ -1,27 +1,48 @@
 from django import forms
-
+from .models import Service
 from users.models import Company
 
+# -------------------------------------------------------------------------
+# Service creation form for companies
+# -------------------------------------------------------------------------
+class CreateNewService(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['name', 'description', 'price_per_hour', 'field']
+        widgets = {
+            'description': forms.Textarea(attrs={'placeholder': 'Enter Description'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Enter Service Name'}),
+            'price_per_hour': forms.NumberInput(attrs={'placeholder': 'Enter Price per Hour'}),
+        }
+        labels = {
+            'price_per_hour': 'Price per Hour'
+        }
 
-class CreateNewService(forms.Form):
-    name = forms.CharField(max_length=40)
-    description = forms.CharField(widget=forms.Textarea, label='Description')
-    price_hour = forms.DecimalField(
-        decimal_places=2, max_digits=5, min_value=0.00)
-    field = forms.ChoiceField(required=True)
+    def __init__(self, *args, **kwargs):
+        company = kwargs.pop('company', None)
+        super().__init__(*args, **kwargs)
 
-    def __init__(self, *args, choices='', ** kwargs):
-        super(CreateNewService, self).__init__(*args, **kwargs)
-        # adding choices to fields
-        if choices:
-            self.fields['field'].choices = choices
-        # adding placeholders to form fields
-        self.fields['name'].widget.attrs['placeholder'] = 'Enter Service Name'
-        self.fields['description'].widget.attrs['placeholder'] = 'Enter Description'
-        self.fields['price_hour'].widget.attrs['placeholder'] = 'Enter Price per Hour'
+        # Restrict field choices based on company type
+        all_fields = [
+            ('Air Conditioner', 'Air Conditioner'),
+            ('All in One', 'All in One'),
+            ('Carpentry', 'Carpentry'),
+            ('Electricity', 'Electricity'),
+            ('Gardening', 'Gardening'),
+            ('Home Machines', 'Home Machines'),
+            ('House Keeping', 'House Keeping'),
+            ('Interior Design', 'Interior Design'),
+            ('Locks', 'Locks'),
+            ('Painting', 'Painting'),
+            ('Plumbing', 'Plumbing'),
+            ('Water Heaters', 'Water Heaters'),
+        ]
 
-        self.fields['name'].widget.attrs['autocomplete'] = 'off'
-
-
-class RequestServiceForm(forms.Form):
-    pass
+        if company:
+            if company.field == 'All in One':
+                self.fields['field'].choices = [f for f in all_fields if f[0] != 'All in One']
+            else:
+                # Only allow company’s field
+                self.fields['field'].choices = [(company.field, company.field)]
+        else:
+            self.fields['field'].choices = all_fields
