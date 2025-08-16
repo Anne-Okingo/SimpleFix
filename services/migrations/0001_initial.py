@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('price_per_hour', models.DecimalField(decimal_places=2, max_digits=100)),
                 ('rating', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(5)])),
                 ('field', models.CharField(choices=[('Air Conditioner', 'Air Conditioner'), ('Carpentry', 'Carpentry'), ('Electricity', 'Electricity'), ('Gardening', 'Gardening'), ('Home Machines', 'Home Machines'), ('House Keeping', 'House Keeping'), ('Interior Design', 'Interior Design'), ('Locks', 'Locks'), ('Painting', 'Painting'), ('Plumbing', 'Plumbing'), ('Water Heaters', 'Water Heaters')], max_length=30)),
-                ('date', models.DateTimeField(auto_now=True)),
+                ('created_at', models.DateTimeField(auto_now=True)),
                 ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='services', to='users.company')),
             ],
         ),
