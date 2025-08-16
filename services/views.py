@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from users.models import Company
 from .models import Service, ServiceRequest
@@ -31,6 +32,10 @@ def service_detail(request, id):
                     address=form.cleaned_data['address'],
                     hours=form.cleaned_data['hours']
                 )
+
+                 # Add the success message
+                messages.success(request, "Service requested successfully!")
+                
                 return redirect('customer_profile', name=request.user.username)
         else:
             form = RequestServiceForm()
