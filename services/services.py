@@ -10,16 +10,16 @@ class CreateNewService(forms.Form):
         decimal_places=2, max_digits=5, min_value=0.00)
     field = forms.ChoiceField(required=True)
 
-    def __init__(self, *args, choices='', ** kwargs):
-        super(CreateNewService, self).__init__(*args, **kwargs)
-        # adding choices to fields
+    def __init__(self, *args, **kwargs):
+        choices = kwargs.pop('choices', None)  # get custom choices safely
+        super().__init__(*args, **kwargs)
         if choices:
             self.fields['field'].choices = choices
-        # adding placeholders to form fields
+
+        # adding placeholders
         self.fields['name'].widget.attrs['placeholder'] = 'Enter Service Name'
         self.fields['description'].widget.attrs['placeholder'] = 'Enter Description'
         self.fields['price_hour'].widget.attrs['placeholder'] = 'Enter Price per Hour'
-
         self.fields['name'].widget.attrs['autocomplete'] = 'off'
 
 
