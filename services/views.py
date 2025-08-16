@@ -53,21 +53,21 @@ def create_service(request):
         return redirect('login')  # Only companies can create services
 
     if request.method == 'POST':
-        form = CreateNewService(request.POST, choices=[(company.field, company.field)] if company.field != 'All in One' else None)
+        form = CreateNewService(request.POST, company=company)
         if form.is_valid():
-            # Save service manually because CreateNewService is a regular Form
             Service.objects.create(
                 name=form.cleaned_data['name'],
                 description=form.cleaned_data['description'],
-                price_per_hour=form.cleaned_data['price_hour'],
+                price_per_hour=form.cleaned_data['price_per_hour'],
                 field=form.cleaned_data['field'],
                 company=company
             )
             return redirect('company_profile', name=request.user.username)
     else:
-        form = CreateNewService(choices=[(company.field, company.field)] if company.field != 'All in One' else None)
+        form = CreateNewService(company=company)
 
     return render(request, 'services/create_service.html', {'form': form})
+
 
 # ------------------------------------------------------------------------
 # Services filtered by field/category
