@@ -1,39 +1,35 @@
 <nav class="navbar">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li>
-            <a href="/services/">Services</a>
-            <ul>
-                <li><a href="/services/air-conditioner">Air Conditioner</a></li>
-                <li><a href="/services/carpentry">Carpentry</a></li>
-                <li><a href="/services/electricity">Electricity</a></li>
-                <li><a href="/services/gardening">Gardening</a></li>
-                <li><a href="/services/home-machines">Home Machines</a></li>
-                <li><a href="/services/house-keeping">House Keeping</a></li>
-                <li><a href="/services/interior-design">Interior Design</a></li>
-                <li><a href="/services/locks">Locks</a></li>
-                <li><a href="/services/painting">Painting</a></li>
-                <li><a href="/services/plumbing">Plumbing</a></li>
-                <li><a href="/services/water-heaters">Water Heaters</a></li>
-            </ul>
-        </li>
-        <li><a href="/company/{{ request.user.username }}">Profile</a></li>
-    </ul>
+  <ul>
+    <li><a href="/">Home</a></li>
+
+    <li>
+      <a href="{% url 'service_list' %}">Services</a>
+      <ul>
+        <li><a href="{% url 'service_field' 'air-conditioner' %}">Air Conditioner</a></li>
+        <li><a href="{% url 'service_field' 'carpentry' %}">Carpentry</a></li>
+        <li><a href="{% url 'service_field' 'electricity' %}">Electricity</a></li>
+        <li><a href="{% url 'service_field' 'gardening' %}">Gardening</a></li>
+        <li><a href="{% url 'service_field' 'home-machines' %}">Home Machines</a></li>
+        <li><a href="{% url 'service_field' 'house-keeping' %}">House Keeping</a></li>
+        <li><a href="{% url 'service_field' 'interior-design' %}">Interior Design</a></li>
+        <li><a href="{% url 'service_field' 'locks' %}">Locks</a></li>
+        <li><a href="{% url 'service_field' 'painting' %}">Painting</a></li>
+        <li><a href="{% url 'service_field' 'plumbing' %}">Plumbing</a></li>
+        <li><a href="{% url 'service_field' 'water-heaters' %}">Water Heaters</a></li>
+      </ul>
+    </li>
+
+    {% if request.user.is_authenticated %}
+      {% if request.user.is_company %}
+        <li><a href="{% url 'create_service' %}">Create Service</a></li>
+        <li><a href="{% url 'company_profile' request.user.username %}">Profile</a></li>
+      {% elif request.user.is_customer %}
+        <li><a href="{% url 'customer_profile' request.user.username %}">Profile</a></li>
+      {% endif %}
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+      <li><a href="{% url 'login_user' %}">Login</a></li>
+      <li><a href="{% url 'register' %}">Register</a></li>
+    {% endif %}
+  </ul>
 </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
