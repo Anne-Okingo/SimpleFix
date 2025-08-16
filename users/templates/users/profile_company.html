@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% block title %}Company Profile{% endblock %}
+
+{% block content %}
+  <h2>Company: {{ company.user.username }}</h2>
+  <p>Email: {{ company.user.email }}</p>
+  <p>Field: {{ company.field }}</p>
+  <p>Rating: {{ company.rating }}/5</p>
+
+  <h3>Services Provided</h3>
+  <ul>
+    {% for service in company.service_set.all %}
+      <li>{{ service.name }} — {{ service.price_per_hour }}/hr</li>
+    {% empty %}
+      <li>No services created yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
