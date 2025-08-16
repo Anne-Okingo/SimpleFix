@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.utils import timezone
-from django.core.exceptions import ValidationError
+
 
 class User(AbstractUser):
     is_company = models.BooleanField(default=False)
@@ -11,11 +10,7 @@ class User(AbstractUser):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    birth = models.DateField()
-    
-    def __str__(self):
-        return self.user.username
+    pass
 
 
 class Company(models.Model):
@@ -42,8 +37,3 @@ class Company(models.Model):
 
     def __str__(self):
         return str(self.user.id) + ' - ' + self.user.username
-
-
-def validate_not_future_date(value):
-    if value and value > timezone.now().date():
-        raise ValidationError('Birth date cannot be in the future.')

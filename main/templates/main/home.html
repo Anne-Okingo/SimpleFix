@@ -1,41 +1,11 @@
-{% extends 'main/base.html' %}
-{% load static %}
-
-{% block title %}NetFix{% endblock %}
-
-{% block extra_head %}
-<link rel="stylesheet" type="text/css" href="{% static 'services/css/services.css' %}">
-{% endblock %}
+{% extends 'main/base.html' %} 
+    {% block title %}
+        NetFix
+    {% endblock %}
 
 {% block content %}
-<div class="services-container">
-    <div class="services-header">
+    <div style="margin-top: 50px;">
         <p class="site_title">NetFix</p>
-        <img class="home_logo" src="{% static 'css/logo.png' %}" alt="logo">
-        <h2>Most Requested Services</h2>
+        <img class="home_logo" src="static/css/logo.png" alt="logo">
     </div>
-
-    <div class="services-list">
-        {% if popular_services %}
-            {% for service in popular_services %}
-                <div class="service-item">
-                    <div class="service-details">
-                        <a href="{% url 'index' service.id %}" class="service-name">{{ service.name }}</a>
-                        <span class="field">{{ service.field }}</span>
-                        <span class="price">${{ service.price_hour }}/hour</span>
-                        <span class="provider">by <a href="{% url 'company_profile' service.company.user.username %}" class="company-link">{{ service.company.user.username }}</a></span>
-                        {% if user.is_authenticated and user.customer %}
-                            <a href="{% url 'request_service' service.id %}" class="request-btn">Request Service</a>
-                        {% endif %}
-                    </div>
-                </div>
-                {% if not forloop.last %}
-                    <div class="divider"></div>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <p class="no-services">No services available yet.</p>
-        {% endif %}
-    </div>
-</div>
 {% endblock %}

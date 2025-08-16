@@ -29,36 +29,6 @@ class Service(models.Model):
     field = models.CharField(max_length=30, blank=False,
                              null=False, choices=choices)
     date = models.DateTimeField(auto_now=True, null=False)
-    request_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
-
-# model represents a request from a customer for a specific service, tracking all relevant details including cost calculation, status, and timing
-class ServiceRequest(models.Model):
-    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='requests')
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    request_date = models.DateTimeField(auto_now_add=True)
-    address = models.CharField(max_length=200, default='Not provided')
-    hours_needed = models.DecimalField(decimal_places=1, max_digits=4, default=1.0)
-    total_cost = models.DecimalField(decimal_places=2, max_digits=10, editable=False, default=0.00)
-    status = models.CharField(max_length=20, choices=[
-        ('pending', 'Pending'),
-        ('accepted', 'Accepted'),
-        ('completed', 'Completed'),
-        ('cancelled', 'Cancelled')
-    ], default='pending')
-
-    class Meta:
-        ordering = ['-request_date']
-
-    def save(self, *args, **kwargs):
-        # Convert both to Decimal to ensure precise calculation
-        from decimal import Decimal
-        price = Decimal(str(self.service.price_hour))
-        hours = Decimal(str(self.hours_needed))
-        self.total_cost = price * hours
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.customer} - {self.service} ({self.status})"

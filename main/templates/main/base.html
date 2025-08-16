@@ -2,131 +2,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="any">
-    <link rel="icon" href="{% static 'img/icon.svg' %}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
-    
-    <!-- Base Styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-    
-    <!-- Meta Tags -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="{% block meta_description %}ServiceHub connects customers with service providers for all home service needs{% endblock %}">
-    
-    <title>{% block title %}ServiceHub{% endblock %}</title>
-    {% block extra_head %}{% endblock %}
+    <title>{% block title %}Title{% endblock %}</title>
   </head>
   <body>
-    <nav class="navbar">
-        <div class="navbar-toggle" onclick="toggleNavbar()">
-            &#9776;
-        </div>
-        <div class="navbar-links">
-            <div class="nav-left">
-                <ul class="nav-menu">
-                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                    <li class="dropdown">
-                        <a href="{% url 'services:list' %}" class="nav-link">Services</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'services:category' 'air-conditioner' %}">Air Conditioner</a></li>
-                            <li><a href="{% url 'services:category' 'carpentry' %}">Carpentry</a></li>
-                            <li><a href="{% url 'services:category' 'electricity' %}">Electricity</a></li>
-                            <li><a href="{% url 'services:category' 'gardening' %}">Gardening</a></li>
-                            <li><a href="{% url 'services:category' 'home-machines' %}">Home Machines</a></li>
-                            <li><a href="{% url 'services:category' 'house-keeping' %}">House Keeping</a></li>
-                            <li><a href="{% url 'services:category' 'interior-design' %}">Interior Design</a></li>
-                            <li><a href="{% url 'services:category' 'locks' %}">Locks</a></li>
-                            <li><a href="{% url 'services:category' 'painting' %}">Painting</a></li>
-                            <li><a href="{% url 'services:category' 'plumbing' %}">Plumbing</a></li>
-                            <li><a href="{% url 'services:category' 'water-heaters' %}">Water Heaters</a></li>
-                        </ul>
-                    </li>
-                    {% if user.is_authenticated %}
-                        {% if user.is_company %}
-                            <li><a href="{% url 'services:create' %}" class="nav-link">Create Service</a></li>
-                            <li><a href="{% url 'services:my_services' %}" class="nav-link">My Services</a></li>
-                        {% elif user.is_customer %}
-                            <li><a href="{% url 'services:requested' %}" class="nav-link">My Requests</a></li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            </div>
-            <div class="nav-right">
-                <ul class="nav-menu">
-                    {% if user.is_authenticated %}
-                        {% if user.is_company %}
-                            <li><a href="{% url 'company_profile' user.username %}" class="nav-link">Profile</a></li>
-                        {% elif user.is_customer %}
-                            <li><a href="{% url 'customer_profile' user.username %}" class="nav-link">Profile</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'logout' %}" class="nav-link btn-logout">Logout</a></li>
-                    {% else %}
-                        <li><a href="{% url 'customer_register' %}" class="nav-link btn-signup">Register as Customer</a></li>
-                        <li><a href="{% url 'company_register' %}" class="nav-link btn-signup">Register as Company</a></li>
-                        <li><a href="{% url 'login' %}" class="nav-link btn-login">Login</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <script>
-    function toggleNavbar() {
-        const links = document.querySelector('.navbar-links');
-        links.classList.toggle('active');
-    }
-    </script>
-
-    <main class="content">
-      {% if messages %}
-      <div class="messages">
-          {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-              {{ message }}
-          </div>
-          {% endfor %}
-      </div>
-      {% endif %}
-      
-      {% block content %}{% endblock %}
-    </main>
-
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>ServiceHub</h3>
-                <p>Connecting customers with trusted service providers</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'services:list' %}">All Services</a></li>
-                    <li><a href="{% url 'about' %}">About Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>Email: contact@servicehub.com</p>
-                <p>Phone: (123) 456-7890</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; {% now "Y" %} ServiceHub. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Main JavaScript -->
-    <script src="{% static 'js/main.js' %}"></script>
-    {% block extra_scripts %}{% endblock %}
+    {% include 'main/navbar.html' %}
+    <!-- places the content of navbar.html here -->
+    <div class='content'>
+      {% block content %} replace me {% endblock %}
+    </div>
   </body>
 </html>
