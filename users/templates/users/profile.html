@@ -37,7 +37,7 @@
     {% else %}
         {% for service in services %}
         <div class="list_services_profile">
-            <a href="/services/{{service.id}}">{{service.name}}</a>-- {{service.price_hour}}€/hour
+            <a href="/services/{{service.id}}">{{service.name}}</a>-- {{service.price_per_hour}}€/hour
             <div class="line"></div>
         </div>
         {% endfor %}

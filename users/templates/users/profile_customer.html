@@ -2,18 +2,42 @@
 {% block title %}Customer Profile{% endblock %}
 
 {% block content %}
-  <h2>Hello {{ customer.user.username }}</h2>
-  <p>Email: {{ customer.user.email }}</p>
-  <p>Date of Birth: {{ customer.date_of_birth }}</p>
+<div class="profile-container">
+  <h2>Hello, {{ customer.user.username }}</h2>
+  <p><strong>Email:</strong> {{ customer.user.email }}</p>
+  <p><strong>Date of Birth:</strong> {{ customer.date_of_birth }}</p>
 
-  <h3>Requested services:</h3>
-  <ul>
-    {% for request in customer.servicerequest_set.all %}
-      <li>
-          {{ request.service.name }} - {{ request.hours }}h - Cost: {{ request.cost }} ({{ request.requested_at.date }})
-      </li>
-    {% empty %}
-      <li>No services requested yet.</li>
-    {% endfor %}
-  </ul>
+  <h3>Requested Services</h3>
+
+  {% if requested_services %}
+    <table class="services-table">
+      <thead>
+        <tr>
+          <th>Service Name</th>
+          <th>Hours</th>
+          <th>Cost</th>
+          <th>Date Requested</th>
+          <th>Company</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in requested_services %}
+        <tr>
+          <td>{{ request.service.name }}</td>
+          <td>{{ request.hours }}</td>
+          <td>{{ request.cost }}</td>
+          <td>{{ request.requested_at|date:"Y-m-d" }}</td>
+          <td>
+            <a href="{% url 'company_profile' name=request.service.company.user.username %}">
+              {{ request.service.company.user.username }}
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No services requested yet.</p>
+  {% endif %}
+</div>
 {% endblock %}

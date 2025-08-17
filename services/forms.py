@@ -25,7 +25,7 @@ class CreateNewService(forms.Form):
             'min_length': 'Description must be at least 10 characters long'
         }
     )
-    price_hour = forms.DecimalField(
+    price_per_hour = forms.DecimalField(
         decimal_places=2,
         max_digits=5,
         min_value=0.01,
@@ -66,7 +66,7 @@ class CreateNewService(forms.Form):
         # adding placeholders to form fields
         self.fields['name'].widget.attrs['placeholder'] = 'Enter Service Name'
         self.fields['description'].widget.attrs['placeholder'] = 'Enter Description'
-        self.fields['price_hour'].widget.attrs['placeholder'] = 'Enter Price per Hour'
+        self.fields['price_per_hour'].widget.attrs['placeholder'] = 'Enter Price per Hour'
         self.fields['name'].widget.attrs['autocomplete'] = 'off'
 
     def clean_name(self):

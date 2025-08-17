@@ -22,10 +22,10 @@
                     <div class="service-details">
                         <a href="{% url 'index' service.id %}" class="service-name">{{ service.name }}</a>
                         <span class="field">{{ service.field }}</span>
-                        <span class="price">${{ service.price_hour }}/hour</span>
+                        <span class="price">${{ service.price_per_hour }}/hour</span>
                         <span class="provider">by <a href="{% url 'company_profile' service.company.user.username %}" class="company-link">{{ service.company.user.username }}</a></span>
                         {% if user.is_authenticated and user.customer %}
-                            <a href="{% url 'request_service' service.id %}" class="request-btn">Request Service</a>
+                            <a href="{% url 'service_detail' service.id %}" class="request-btn">Request Service</a>
                         {% endif %}
                     </div>
                 </div>

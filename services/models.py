@@ -50,7 +50,7 @@ class ServiceRequest(models.Model):
     def save(self, *args, **kwargs):
         # Convert both to Decimal to ensure precise calculation
         from decimal import Decimal
-        price = Decimal(str(self.service.price_hour))
+        price = Decimal(str(self.service.price_per_hour))
         hours = Decimal(str(self.hours))
         self.total_cost = price * hours
         super().save(*args, **kwargs)

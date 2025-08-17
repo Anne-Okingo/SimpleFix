@@ -6,6 +6,8 @@ from django.views.generic import CreateView, TemplateView
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
 from .models import User, Company, Customer
 
+from services.models import ServiceRequest
+
 
 def register(request):
     return render(request, 'users/register.html')
@@ -86,10 +88,24 @@ def logout_view(request):
 # ------------------------------------------------------------
 
 def customer_profile(request, name):
+    # Get the customer object
     customer = Customer.objects.get(user__username=name)
-    return render(request, 'users/profile_customer.html', {'customer': customer})
+    # Get all service requests by this customer, newest first
+    requested_services = ServiceRequest.objects.filter(customer=customer).order_by('-requested_at')
+    
+    return render(request, 'users/profile_customer.html', {
+        'customer': customer,
+        'requested_services': requested_services
+    })
 
 
 def company_profile(request, name):
+    # Get the company object
     company = Company.objects.get(user__username=name)
-    return render(request, 'users/profile_company.html', {'company': company})
+    # Get all services offered by this company, newest first
+    services = company.service_set.all().order_by('-created_at')
+    
+    return render(request, 'users/profile_company.html', {
+        'company': company,
+        'services': services
+    })

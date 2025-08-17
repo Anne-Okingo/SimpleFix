@@ -140,20 +140,20 @@ def create(request):
         if form.is_valid():
             if company.field != 'All in One' and company.field != form.cleaned_data['field']:
                 form.add_error('field', 'You can only create services in your field of work.')
-                return render(request, 'services/create.html', {'form': form})
+                return render(request, 'services/create_service.html', {'form': form})
             
             service = Service(
                 company=company,
                 name=form.cleaned_data['name'],
                 description=form.cleaned_data['description'],
-                price_hour=form.cleaned_data['price_hour'],
+                price_per_hour=form.cleaned_data['price_per_hour'],
                 field=form.cleaned_data['field'],
             )
             service.save()
             return redirect('services_list')
     else:
         form = CreateNewService()
-    return render(request, 'services/create.html', {'form': form})
+    return render(request, 'services/create_service.html', {'form': form})
 
 
 def service_field(request, field):

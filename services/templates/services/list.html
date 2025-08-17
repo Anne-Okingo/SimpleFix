@@ -1,29 +1,67 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
-{% block title %}
-    Services List
+{% block title %}Services List{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{% static 'services/css/services.css' %}">
 {% endblock %}
 
 {% block content %}
-<p class="title">Services</p>
+<div class="services-container">
+    <div class="services-header">
+        <h1>All Services</h1>
+        {% if user.is_company %}
+            <a href="{% url 'create' %}" class="create-service-btn">Create New Service</a>
+        {% endif %}
+    </div>
 
-{% if user.is_authenticated and user.is_company %}
-    <a class="create_service" href="{% url 'create_service' %}">Create Service</a>
-{% endif %}
-
-<div class='services_list'>
-    {% if services %}
-        <ul>
+    <div class="services-list">
+        {% if services %}
             {% for service in services %}
-                <li>
-                    <a href="{% url 'service_detail' service.id %}">{{ service.name }}</a>
-                    — {{ service.field }} — {{ service.price_per_hour }}/hr
-                    (by <a href="{% url 'company_profile' service.company.user.username %}">{{ service.company.user.username }}</a>)
-                </li>
+                <div class="service-item">
+                    <div class="service-details">
+                        <a href="{% url 'index' service.id %}" class="service-name">{{ service.name }}</a>
+                        <span class="field">{{ service.field }}</span>
+                        <span class="price">${{ service.price_per_hour }}/hour</span>
+                        <span class="provider">by <a href="{% url 'company_profile' service.company.user.username %}" class="company-link">{{ service.company.user.username }}</a></span>
+                        
+                        {% if user.is_authenticated %}
+                            {% if user.is_customer %}
+                                <a href="{% url 'request_service' service.id %}" class="request-btn">Request Service</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login_user' %}?next={% url 'request_service' service.id %}" class="request-btn">Request Service</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if not forloop.last %}
+                    <div class="divider"></div>
+                {% endif %}
             {% endfor %}
-        </ul>
-    {% else %}
-        <h2>Sorry, no services available yet.</h2>
+        {% else %}
+            <p class="no-services">No services found.</p>
+        {% endif %}
+    </div>
+
+    {% if services.has_other_pages %}
+    <div class="pagination">
+        {% if services.has_previous %}
+            <a href="?page={{ services.previous_page_number }}">&laquo;</a>
+        {% endif %}
+        
+        {% for i in services.paginator.page_range %}
+            {% if services.number == i %}
+                <span class="active">{{ i }}</span>
+            {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if services.has_next %}
+            <a href="?page={{ services.next_page_number }}">&raquo;</a>
+        {% endif %}
+    </div>
     {% endif %}
 </div>
 {% endblock %}
