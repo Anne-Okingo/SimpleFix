@@ -23,7 +23,7 @@ urlpatterns = [
     #include app URL files
     path('', include('main.urls')),
     path('services/', include('services.urls')),
-    path('register/', include('users.urls')),
+    path('users/', include('users.urls')),
 
     #profile pages
     path('customer/<slug:name>/', v.customer_profile, name='customer_profile'),
