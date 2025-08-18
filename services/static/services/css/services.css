@@ -1,0 +1,302 @@
+.services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.services-header h1 {
+    color: #f9f8fd;
+    font-size: 2rem;
+}
+
+.create-service-btn, .request-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: #ec2f00;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.create-service-btn:hover, .request-btn:hover {
+    background: #d42a00;
+    color: white;
+    text-decoration: none;
+}
+
+.request-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.service-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.service-card h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.service-card p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.view-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.view-btn:hover {
+    background: #0056b3;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #ec2f00;
+}
+
+.pagination .active {
+    background: #ec2f00;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.no-services {
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+    padding: 40px 0;
+}
+
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.service-item {
+    background-color: #646464;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 35px -20px #ec2f00;
+}
+
+.service-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+    gap: 20px;
+}
+
+.service-name {
+    color: #f9f8fd;
+    font-size: 1.3rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.service-name:hover {
+    text-decoration: underline;
+}
+
+.field {
+    color: #e7e7e7;
+}
+
+.price {
+    font-weight: bold;
+    color: #e7e7e7;
+}
+
+.provider {
+    margin-left: auto;
+    color: #e7e7e7;
+}
+
+.company-link {
+    color: #ec2f00;
+    text-decoration: none;
+}
+
+.company-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    height: 1px;
+    background-color: #646464;
+    margin: 1rem 0;
+}
+
+.alert {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+/* Responsive Logo on Narrow Screens */
+.home_logo {
+    max-width: 80%; /* Smaller size on narrow screens */
+    height: auto;
+}
+
+/* Responsive Title */
+.services-header h2 {
+    font-size: 1.5em; /* Adjust font size for smaller screens */
+    margin: 0;
+    padding: 10px 0;
+}
+
+/* Responsive Most Requested Section */
+.most-requested {
+    width: 100%; /* Ensure full width */
+    padding: 0 10px; /* Add padding to avoid overlap */
+}
+
+.site_title {
+    font-size: 2.5em; /* Default size */
+    margin: 0;
+    padding: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .site_title {
+        font-size: 3em; /* Smaller size for narrow screens */
+        padding: 5px 0; /* Adjust padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .site_title {
+        font-size: 2em; /* Even smaller size for very narrow screens */
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.service_info_header {
+    width: 100%;
+    padding: 2rem;
+    margin: 1rem 0;
+    background-color: #646464;
+    border-radius: 10px;
+    box-shadow: 0px 0px 35px -20px #ec2f00;
+    word-wrap: break-word;
+}
+
+@media screen and (max-width: 768px) {
+    .service_info_header {
+        padding: 1.5rem;
+    }
+    
+    .service_info_header h1 {
+        font-size: 1.5rem;
+        word-wrap: break-word;
+    }
+
+    .services-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .services-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .service-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    .service_info_header {
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    .service_info_header h1 {
+        font-size: 1.2rem;
+    }
+
+    .services-container {
+        padding: 10px;
+    }
+
+    .service-item {
+        padding: 1rem;
+    }
+
+    .request-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .service-details {
+        gap: 0.5rem;
+    }
+}
