@@ -1,3 +1,4 @@
+# services/urls.py
 from django.urls import path
 from . import views as v
 
@@ -13,4 +14,7 @@ urlpatterns = [
 
     # Services filtered by category/field
     path('field/<slug:field>/', v.service_field, name='service_field'),
+
+    # Customer requests a service
+    path('<int:id>/request/', v.request_service, name='request_service'),
 ]
